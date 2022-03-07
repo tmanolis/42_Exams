@@ -9,6 +9,15 @@ typedef	struct	s_zone
 	char	bg_char;
 }				t_zone;
 
+typedef struct	s_circle
+{
+	char	type;
+	float	x;
+	float	y;
+	float	radius;
+	char	color;
+}				t_circle;
+
 int ft_strlen(char *str)
 {
     int i;
@@ -60,7 +69,15 @@ char *get_zone(FILE *file, t_zone *zone)
 
 int	draw_circles(FILE *file, char *drawing, t_zone *zone)
 {
-	
+	t_circle	tmp;
+	int			ret;
+
+	while ((ret = fscanf(file, "%c %f %f %f %c\n", &tmp.type, &tmp.x, &tmp.y, &tmp.radius, &tmp.color)) == 5)
+	{
+
+	}
+	if (ret == -1)
+		return (0);
 	return (1);
 }
 
