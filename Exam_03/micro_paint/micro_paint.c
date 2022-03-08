@@ -81,9 +81,42 @@ void	print_drawing(char *drawing, t_zone *zone)
 	}
 }
 
+int	check_rec(float x, float y, t_rec *tmp)
+{
+	float	check; 
+	
+	check = 1.00000000;
+    if ((x < tmp->x) || (tmp->x + tmp->width < x) || (y < tmp->y) || (tmp->y + tmp->height < y))
+		return (0);
+    if (((x - tmp->x) < check) || ((tmp->x + tmp->width) - x < check) || ((y - tmp->y) < check) || ((tmp->y + tmp->height) - y < check))
+		return (2);
+	return (1);
+}
+
 void	draw(t_zone *zone, char *drawing, t_rec *tmp)
 {
+	int x;
+	int y;
+	int hit;
 
+	y = 0;
+	while (y < zone->height)
+	{
+		x = 0;
+		while (x < zone->width)
+		{
+			hit = check_rec((float)x, (float)y, tmp);
+			if ((hit == 2 && tmp->type == 'r') || (hit && tmp->type == 'R'))
+				drawing[(y * zone->width) + x] = tmp->color;
+			x++;
+		}
+		y++;
+	}
+}
+
+int	check_line(t_rec *tmp)
+{
+	return ((tmp->type == 'r' || tmp->type == 'R') && (tmp->width > 0.00000000 || tmp->height > 0.00000000));
 }
 
 int	draw_rec(FILE *file, char *drawing, t_zone *zone)
@@ -93,7 +126,7 @@ int	draw_rec(FILE *file, char *drawing, t_zone *zone)
 
 	while ((ret = fscanf(file, "%c %f %f %f %f %c\n", &tmp.type, &tmp.x, &tmp.y, &tmp.width, &tmp.height, &tmp.color)) == 6)
 	{
-		if ((tmp.type != 'r' || tmp.type != 'R') || tmp.width <= 0.00000000 || tmp.height <= 0.00000000)
+		if (!check_line(&tmp))
 			return (0);
 		draw(zone, drawing, &tmp);
 	}
