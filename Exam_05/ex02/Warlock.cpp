@@ -54,20 +54,17 @@ void	Warlock::introduce() const
 
 void	Warlock::learnSpell(ASpell *spell)
 {
-	if (spell && spellbook.find(spell->getName()) == spellbook.end())
-		spellbook.insert(std::pair<std::string, ASpell*>(spell->getName(), spell));
+	spellbook.learnSpell(spell);
 }
 
 void	Warlock::forgetSpell(std::string spell_name)
 {
-	std::map<std::string, ASpell*>::iterator	it = spellbook.find(spell_name);
-	if (it != spellbook.end())
-		spellbook.erase(it);
+	spellbook.forgetSpell(spell_name);
 }
 
 void	Warlock::launchSpell(std::string spell_name, ATarget const &target)
 {
-	std::map<std::string, ASpell*>::iterator	it = spellbook.find(spell_name);
-	if (it != spellbook.end())
-		it->second->launch(target);
+	ASpell	*tmp = spellbook.createSpell(spell_name);
+	if (tmp)
+		tmp->launch(target);
 }

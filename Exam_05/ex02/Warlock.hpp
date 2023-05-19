@@ -4,16 +4,16 @@
 # include <cstdlib>
 # include <iostream>
 # include <string>
-# include <map>
 
 # include "ASpell.hpp"
+# include "SpellBook.hpp"
 
 class	Warlock
 {
 	private:
 		std::string	name;
 		std::string	title;
-		std::map<std::string, ASpell*>	spellbook;
+		SpellBook	spellbook;
 
 		Warlock();
 		Warlock(Warlock const &src);
@@ -30,7 +30,7 @@ class	Warlock
 		// Member Functions
 		void 	introduce() const;
 		void	learnSpell(ASpell *spell);
-		void	forgetSpell(std::string	spell_name);
+		void	forgetSpell(std::string	spell_name); // si pb ajouter const &
 		void	launchSpell(std::string spell_name, ATarget const &target);
 
 
